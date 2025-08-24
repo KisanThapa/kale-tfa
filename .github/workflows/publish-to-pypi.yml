@@ -5,6 +5,9 @@ on:
   release:
     types: [created]
 
+permissions:
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,8 +37,3 @@ jobs:
       # This step uses a trusted publisher action from the Python Packaging Authority (PyPA)
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          # The username is always __token__ for API token authentication
-          user: __token__
-          # The password is the PyPI API token you stored in your repository secrets
-          password: ${{ secrets.KALE_API_TOKEN }}
