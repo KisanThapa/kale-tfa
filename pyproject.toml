@@ -31,6 +31,9 @@ dependencies = [
     "build>=1.3.0",
 ]
 
+[project.scripts]
+kale = "kale-tfa.kale-tfa:run_kale"
+
 [project.urls]
 "Homepage" = "https://github.com/KisanThapa/kale-tfa"
 "Bug Tracker" = "https://github.com/KisanThapa/kale-tfa/issues"
