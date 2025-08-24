@@ -1,0 +1,41 @@
+name: Publish Python Package to PyPI
+
+# This action runs on every new release created in GitHub
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Sets up a Python environment for the job
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # 3. Installs necessary build dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
+      # 4. Builds the sdist and wheel archives
+      - name: Build package
+        run: python -m build
+
+      # 5. Publishes the package to the official PyPI repository
+      # This step uses a trusted publisher action from the Python Packaging Authority (PyPA)
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # The username is always __token__ for API token authentication
+          user: __token__
+          # The password is the PyPI API token you stored in your repository secrets
+          password: ${{ secrets.KALE_API_TOKEN }}
